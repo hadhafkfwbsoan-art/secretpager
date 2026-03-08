@@ -3,711 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصفحة السرية 🔒</title>
+    <title>الصفحة السرية</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .bg-animation .stars {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        .floating-orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .orb1 {
-            width: 300px;
-            height: 300px;
-            background: #667eea;
-            top: 10%;
-            right: -5%;
-            animation-delay: 0s;
-        }
-
-        .orb2 {
-            width: 250px;
-            height: 250px;
-            background: #f093fb;
-            bottom: 10%;
-            left: -5%;
-            animation-delay: 2s;
-        }
-
-        .orb3 {
-            width: 200px;
-            height: 200px;
-            background: #4facfe;
-            top: 50%;
-            left: 40%;
-            animation-delay: 4s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-30px) rotate(5deg); }
-            66% { transform: translateY(20px) rotate(-5deg); }
-        }
-
-        .login-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            background: #0a0a0a;
-            transition: opacity 0.8s, visibility 0.8s;
-        }
-
-        .login-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .login-box {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 50px 40px;
-            width: 90%;
-            max-width: 420px;
-            text-align: center;
-            animation: slideUp 0.8s ease;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .lock-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 25px;
-            font-size: 35px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
-            50% { box-shadow: 0 0 0 20px rgba(102, 126, 234, 0); }
-        }
-
-        .login-box h2 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea, #f093fb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .login-box p {
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 14px;
-            color: #fff;
-            font-size: 16px;
-            font-family: 'Tajawal', sans-serif;
-            outline: none;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .input-group input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 18px;
-            font-weight: 700;
-            font-family: 'Tajawal', sans-serif;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .error-msg {
-            color: #ff6b6b;
-            margin-top: 15px;
-            font-size: 14px;
-            display: none;
-        }
-
-        .error-msg.show {
-            display: block;
-            animation: shake 0.5s;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .main-content {
-            display: none;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            animation: fadeIn 1s ease;
-        }
-
-        .main-content.show {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .header {
-            text-align: center;
-            padding: 40px 0 30px;
-        }
-
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
-            padding: 4px;
-            margin: 0 auto 20px;
-            animation: rotate 6s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .profile-pic .placeholder {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: #1a1a2e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #667eea, #f093fb, #4facfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-
-        .header .subtitle {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 16px;
-        }
-
-        .header .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 15px;
-            padding: 8px 20px;
-            background: rgba(102, 126, 234, 0.15);
-            border-radius: 50px;
-            font-size: 14px;
-            color: #667eea;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin: 30px 0;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(102, 126, 234, 0.3);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-icon {
-            font-size: 40px;
-            margin-bottom: 12px;
-        }
-
-        .card h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .card p {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .secret-section {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 20px 0;
-        }
-
-        .secret-section h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .secret-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 14px;
-            margin-bottom: 10px;
-            transition: all 0.3s;
-        }
-
-        .secret-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .secret-item .icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .secret-item .info h4 {
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .secret-item .info p {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 3px;
-        }
-
-        .icon-purple { background: rgba(102, 126, 234, 0.2); }
-        .icon-pink { background: rgba(240, 147, 251, 0.2); }
-        .icon-blue { background: rgba(79, 172, 254, 0.2); }
-        .icon-green { background: rgba(74, 222, 128, 0.2); }
-        .icon-orange { background: rgba(251, 146, 60, 0.2); }
-        .icon-red { background: rgba(251, 113, 133, 0.2); }
-
-        .secret-message {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .secret-message .msg-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
-        }
-
-        .secret-message h2 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, #667eea, #f093fb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .secret-message .msg-text {
-            font-size: 16px;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        .social-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            text-decoration: none;
-            transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .footer {
-            text-align: center;
-            padding: 30px 0;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 13px;
-        }
-
-        .footer .heart {
-            color: #ff6b6b;
-            display: inline-block;
-            animation: heartbeat 1.5s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .copy-btn {
-            padding: 12px 24px;
-            background: rgba(102, 126, 234, 0.2);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 12px;
-            color: #667eea;
-            font-size: 14px;
-            cursor: pointer;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 700;
-            transition: all 0.3s;
-        }
-
-        .copy-btn:hover {
-            background: rgba(102, 126, 234, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            border-radius: 50%;
-            animation: particleFloat 4s ease-in infinite;
-        }
-
-        @keyframes particleFloat {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-200px) scale(0); }
-        }
-
-        .success-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(102, 126, 234, 0.2);
-            z-index: 999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .success-overlay.show {
-            display: flex;
-            animation: successFlash 0.5s ease;
-        }
-
-        @keyframes successFlash {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        .visitor-count {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.4);
-            margin-top: 10px;
-        }
-
-        .hint-text {
-            color: rgba(255,255,255,0.2);
-            font-size: 12px;
-            margin-top: 15px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .hint-text:hover {
-            color: rgba(255,255,255,0.5);
-        }
-
-        @media (max-width: 480px) {
-            .login-box {
-                padding: 40px 25px;
-            }
-            .header h1 {
-                font-size: 26px;
-            }
-            .cards-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Tajawal',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;overflow-x:hidden}
+        .bg-animation{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden}
+        .bg-animation .stars{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s infinite}
+        @keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
+        .floating-orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.3;animation:float 8s ease-in-out infinite}
+        .orb1{width:300px;height:300px;background:#667eea;top:10%;right:-5%}
+        .orb2{width:250px;height:250px;background:#f093fb;bottom:10%;left:-5%;animation-delay:2s}
+        .orb3{width:200px;height:200px;background:#4facfe;top:50%;left:40%;animation-delay:4s}
+        @keyframes float{0%,100%{transform:translateY(0)}33%{transform:translateY(-30px)}66%{transform:translateY(20px)}}
+        .login-screen{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:1000;background:#0a0a0a;transition:opacity .8s,visibility .8s}
+        .login-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        .login-box{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:50px 40px;width:90%;max-width:420px;text-align:center;animation:slideUp .8s ease}
+        @keyframes slideUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
+        .lock-icon{width:80px;height:80px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;font-size:35px;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(102,126,234,.4)}50%{box-shadow:0 0 0 20px rgba(102,126,234,0)}}
+        .login-box h2{font-size:28px;font-weight:700;margin-bottom:10px;background:linear-gradient(135deg,#667eea,#f093fb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .login-box p{color:rgba(255,255,255,.5);margin-bottom:30px;font-size:14px}
+        .input-group{margin-bottom:20px}
+        .input-group input{width:100%;padding:16px 20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;font-size:16px;font-family:'Tajawal',sans-serif;outline:none;transition:all .3s;text-align:center}
+        .input-group input::placeholder{color:rgba(255,255,255,.3)}
+        .input-group input:focus{border-color:#667eea;box-shadow:0 0 20px rgba(102,126,234,.2)}
+        .login-btn{width:100%;padding:16px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:14px;color:#fff;font-size:18px;font-weight:700;font-family:'Tajawal',sans-serif;cursor:pointer;transition:all .3s}
+        .login-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(102,126,234,.4)}
+        .error-msg{color:#ff6b6b;margin-top:15px;font-size:14px;display:none}
+        .error-msg.show{display:block;animation:shake .5s}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+        .main-content{display:none;padding:20px;max-width:800px;margin:0 auto}
+        .main-content.show{display:block;animation:fadeIn 1s ease}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .header{text-align:center;padding:40px 0 30px}
+        .profile-pic{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);padding:4px;margin:0 auto 20px;animation:rotate 6s linear infinite}
+        @keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+        .profile-pic .placeholder{width:100%;height:100%;border-radius:50%;background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:50px}
+        .header h1{font-size:32px;font-weight:900;background:linear-gradient(135deg,#667eea,#f093fb,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+        .header .subtitle{color:rgba(255,255,255,.5);font-size:16px}
+        .header .status{display:inline-flex;align-items:center;gap:8px;margin-top:15px;padding:8px 20px;background:rgba(102,126,234,.15);border-radius:50px;font-size:14px;color:#667eea}
+        .status-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;animation:blink 1.5s infinite}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+        .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:30px 0}
+        .card{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:25px;text-align:center;transition:all .3s;cursor:pointer}
+        .card:hover{transform:translateY(-5px);border-color:rgba(102,126,234,.3)}
+        .card-icon{font-size:40px;margin-bottom:12px}
+        .card h3{font-size:16px;font-weight:700;margin-bottom:5px}
+        .card p{font-size:13px;color:rgba(255,255,255,.4)}
+        .secret-message{background:linear-gradient(135deg,rgba(102,126,234,.1),rgba(240,147,251,.1));border:1px solid rgba(102,126,234,.2);border-radius:20px;padding:30px;margin:20px 0;text-align:center}
+        .secret-message .msg-icon{font-size:50px;margin-bottom:15px}
+        .secret-message h2{font-size:24px;margin-bottom:15px;background:linear-gradient(135deg,#667eea,#f093fb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .secret-message .msg-text{font-size:16px;line-height:1.8;color:rgba(255,255,255,.7)}
+        .secret-section{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:30px;margin:20px 0}
+        .secret-section h2{font-size:22px;margin-bottom:20px}
+        .secret-item{display:flex;align-items:center;gap:15px;padding:15px;background:rgba(255,255,255,.03);border-radius:14px;margin-bottom:10px;transition:all .3s}
+        .secret-item:hover{background:rgba(255,255,255,.08)}
+        .secret-item .icon{width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+        .secret-item .info h4{font-size:15px;font-weight:600}
+        .secret-item .info p{font-size:13px;color:rgba(255,255,255,.4);margin-top:3px}
+        .icon-purple{background:rgba(102,126,234,.2)}
+        .icon-pink{background:rgba(240,147,251,.2)}
+        .icon-blue{background:rgba(79,172,254,.2)}
+        .icon-green{background:rgba(74,222,128,.2)}
+        .icon-orange{background:rgba(251,146,60,.2)}
+        .icon-red{background:rgba(251,113,133,.2)}
+        .social-links{display:flex;justify-content:center;gap:12px;margin:30px 0;flex-wrap:wrap}
+        .social-btn{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;transition:all .3s;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05)}
+        .social-btn:hover{transform:translateY(-3px)}
+        .footer{text-align:center;padding:30px 0;color:rgba(255,255,255,.3);font-size:13px}
+        .footer .heart{color:#ff6b6b;display:inline-block;animation:heartbeat 1.5s infinite}
+        @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+        .copy-btn{padding:12px 24px;background:rgba(102,126,234,.2);border:1px solid rgba(102,126,234,.3);border-radius:12px;color:#667eea;font-size:14px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transition:all .3s}
+        .hint-text{color:rgba(255,255,255,.2);font-size:12px;margin-top:15px;cursor:pointer}
+        .visitor-count{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,.05);border-radius:50px;font-size:12px;color:rgba(255,255,255,.4);margin-top:10px}
+        #popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:2000;align-items:center;justify-content:center}
+        #popup.show{display:flex}
+        .popup-box{background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:30px;max-width:400px;width:90%;text-align:center}
+        .popup-box button{margin-top:20px;padding:10px 30px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:10px;color:#fff;font-size:16px;font-family:'Tajawal',sans-serif;cursor:pointer;font-weight:700}
+        @media(max-width:480px){.login-box{padding:40px 25px}.header h1{font-size:26px}}
     </style>
 </head>
 <body>
 
-    <div class="bg-animation" id="bgAnimation"></div>
-    <div class="floating-orb orb1"></div>
-    <div class="floating-orb orb2"></div>
-    <div class="floating-orb orb3"></div>
+<div class="bg-animation" id="bgAnimation"></div>
+<div class="floating-orb orb1"></div>
+<div class="floating-orb orb2"></div>
+<div class="floating-orb orb3"></div>
 
-    <!-- شاشة الدخول -->
-    <div class="login-screen" id="loginScreen">
-        <div class="login-box">
-            <div class="lock-icon">🔒</div>
-            <h2>صفحة سرية</h2>
-            <p>أدخل كلمة السر للوصول إلى المحتوى الخاص</p>
-            <div class="input-group">
-                <input type="text" id="passwordInput" placeholder="أدخل كلمة السر..." autocomplete="off">
-            </div>
-            <button class="login-btn" onclick="checkPassword()">
-                دخول 🚀
-            </button>
-            <div class="error-msg" id="errorMsg">❌ كلمة السر غير صحيحة! حاول مرة أخرى</div>
-            <div class="visitor-count">
-                👁️ <span id="visitorCount">0</span> زائر
-            </div>
-            <p class="hint-text" onclick="showHint()">💡 تلميح؟</p>
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <div class="lock-icon">🔒</div>
+        <h2>صفحة سرية</h2>
+        <p>أدخل كلمة السر للوصول إلى المحتوى الخاص</p>
+        <div class="input-group">
+            <input type="text" id="passwordInput" placeholder="أدخل كلمة السر..." autocomplete="off">
+        </div>
+        <button class="login-btn" id="loginBtn">دخول 🚀</button>
+        <div class="error-msg" id="errorMsg">❌ كلمة السر غير صحيحة!</div>
+        <div class="visitor-count">👁️ <span id="visitorCount">0</span> زائر</div>
+        <p class="hint-text" id="hintBtn">💡 تلميح؟</p>
+    </div>
+</div>
+
+<div class="main-content" id="mainContent">
+    <div class="header">
+        <div class="profile-pic">
+            <div class="placeholder">👤</div>
+        </div>
+        <h1>مرحباً يا عمري 💜</h1>
+        <p class="subtitle">أهلاً بك في صفحتي السرية ✨</p>
+        <div class="status">
+            <span class="status-dot"></span>
+            متصل الآن
         </div>
     </div>
 
-    <div class="success-overlay" id="successOverlay"></div>
-
-    <!-- المحتوى الرئيسي -->
-    <div class="main-content" id="mainContent">
-
-        <div class="header">
-            <div class="profile-pic">
-                <div class="placeholder">👤</div>
-            </div>
-            <h1>مرحباً يا عمري 💜</h1>
-            <p class="subtitle">أهلاً بك في صفحتي السرية ✨</p>
-            <div class="status">
-                <span class="status-dot"></span>
-                متصل الآن
-            </div>
+    <div class="cards-grid">
+        <div class="card" data-section="about">
+            <div class="card-icon">👤</div>
+            <h3>من أنا</h3>
+            <p>تعرف عليّ أكثر</p>
         </div>
-
-        <div class="cards-grid">
-            <div class="card" onclick="openSection('about')">
-                <div class="card-icon">👤</div>
-                <h3>من أنا</h3>
-                <p>تعرف عليّ أكثر</p>
-            </div>
-            <div class="card" onclick="openSection('photos')">
-                <div class="card-icon">📸</div>
-                <h3>صوري</h3>
-                <p>ألبوم خاص</p>
-            </div>
-            <div class="card" onclick="openSection('secrets')">
-                <div class="card-icon">🤫</div>
-                <h3>أسراري</h3>
-                <p>لا تخبر أحداً</p>
-            </div>
-            <div class="card" onclick="openSection('favorites')">
-                <div class="card-icon">⭐</div>
-                <h3>المفضلة</h3>
-                <p>أشيائي المفضلة</p>
-            </div>
+        <div class="card" data-section="photos">
+            <div class="card-icon">📸</div>
+            <h3>صوري</h3>
+            <p>ألبوم خاص</p>
         </div>
-
-        <!-- الرسالة السرية -->
-        <div class="secret-message">
-            <div class="msg-icon">💌</div>
-            <h2>رسالة خاصة لك</h2>
-            <p class="msg-text">
-                إذا وصلت إلى هنا، فأنت شخص مميز جداً بالنسبة لي 💜
-                <br><br>
-                هذه الصفحة صنعتها خصيصاً لك وحدك
-                <br>
-                لأنك تستحق كل شيء جميل في هذه الحياة ✨
-                <br><br>
-                أحبك يا عمري 🤍
-            </p>
+        <div class="card" data-section="secrets">
+            <div class="card-icon">🤫</div>
+            <h3>أسراري</h3>
+            <p>لا تخبر أحداً</p>
         </div>
-
-        <!-- المعلومات السرية -->
-        <div class="secret-section">
-            <h2>🔐 معلومات سرية</h2>
-
-            <div class="secret-item">
-                <div class="icon icon-purple">📛</div>
-                <div class="info">
-                    <h4>الاسم</h4>
-                    <p>ضع اسمك هنا</p>
-                </div>
-            </div>
-
-            <div class="secret-item">
-                <div class="icon icon-pink">🎂</div>
-                <div class="info">
-                    <h4>تاريخ الميلاد</h4>
-                    <p>01 / 01 / 2000</p>
-                </div>
-            </div>
-
-            <div class="secret-item">
-                <div class="icon icon-blue">📍</div>
-                <div class="info">
-                    <h4>الموقع</h4>
-                    <p>المدينة، البلد</p>
-                </div>
-            </div>
-
-            <div class="secret-item">
-                <div class="icon icon-green">💚</div>
-                <div class="info">
-                    <h4>الحالة</h4>
-                    <p>مبسوط وأحب الحياة ✨</p>
-                </div>
-            </div>
-
-            <div class="secret-item">
-                <div class="icon icon-orange">🎵</div>
-                <div class="info">
-                    <h4>أغنيتي المفضلة</h4>
-                    <p>ضع أغنيتك المفضلة هنا</p>
-                </div>
-            </div>
-
-            <div class="secret-item">
-                <div class="icon icon-red">❤️</div>
-                <div class="info">
-                    <h4>أغلى شخص</h4>
-                    <p>أنت يا من تقرأ هذا الكلام 💜</p>
-                </div>
-            </div>
+        <div class="card" data-section="favorites">
+            <div class="card-icon">⭐</div>
+            <h3>المفضلة</h3>
+            <p>أشيائي المفضلة</p>
         </div>
+    </div>
 
-        <!-- روابط التواصل -->
-        <div style="text-align: center; margin: 30px 0;">
-            <h3 style="margin-bottom: 15px; color: rgba(255,255,255,0.6);">تواصل معي 💬</h3>
-            <div class="social-links">
-                <a hre
+    <div class="secret-message">
+        <div class="msg-icon">💌</div>
+        <h2>رسالة خاصة لك</h2>
+        <p class="msg-text">
+            إذا وصلت إلى هنا، فأنت شخص مميز جداً بالنسبة لي 💜<br><br>
+            هذه الصفحة صنعتها خصيصاً لك وحدك<br>
+            لأنك تستحق كل شيء جميل في هذه الحياة ✨<br><br>
+            أحبك يا عمري 🤍
+        </p>
+    </div>
+
+    <div class="secret-section">
+        <h2>🔐 معلومات سرية</h2>
+        <div class="secret-item">
+            <div class="icon icon-purple">📛</div>
+            <div class="info"><h4>الاسم</h4><p>ضع اسمك هنا</p></div>
+        </div>
+        <div class="secret-item">
+            <div class="icon icon-pink">🎂</div>
+            <div class="info"><h4>تاريخ الميلاد</h4><p>01 / 01 / 2000</p></div>
+        </div>
+        <div class="secret-item">
+            <div class="icon icon-blue">📍</div>
+            <div class="info"><h4>الموقع</h4><p>المدينة، البلد</p></div>
+        </div>
+        <div class="secret-item">
+            <div class="icon icon-green">💚</div>
+            <div class="info"><h4>الحالة</h4><p>مبسوط وأحب الحياة ✨</p></div>
+        </div>
+        <div class="secret-item">
+            <div class="icon icon-orange">🎵</div>
+            <div class="info"><h4>أغنيتي المفضلة</h4><p>ضع أغنيتك المفضلة هنا</p></div>
+        </div>
+        <div class="secret-item">
+            <div class="icon icon-red">❤️</div>
+            <div class="info"><h4>أغلى شخص</h4><p>أنت يا من تقرأ هذا 💜</p></div>
+        </div>
+    </div>
+
+    <div style="text-align:center;margin:30px 0">
+        <h3 style="margin-bottom:15px;color:rgba(255,255,255,.6)">تواصل معي 💬</h3>
+        <div class="social-links">
+            <a href="#" class="social-btn">📷</a>
+            <a href="#" class="social-btn">🎵</a>
+            <a href="#" class="social-btn">👻</a>
+            <a href="#" class="social-btn">🐦</a>
+            <a href="#" class="social-btn">🎮</a>
+            <a href="#" class="social-btn">✈️</a>
+        </div>
+    </div>
+
+    <div style="text-align:center;margin:20px 0">
+        <button class="copy-btn" id="copyBtn">📋 نسخ رابط الصفحة</button>
+    </div>
+
+    <div class="footer">
+        <p>صُنع بـ <span class="heart">❤️</span> بكل حب</p>
+        <p style="margin-top:5px">© 2024 - الصفحة السرية 🔒</p>
+    </div>
+</div>
+
+<div id="popup">
+    <div class="popup-box">
+        <div id="popupIcon" style="font-size:50px;margin-bottom:15px"></div>
+        <h3 id="popupTitle" style="font-size:20px;margin-bottom:10px"></h3>
+        <p id="popupText" style="color:rgba(255,255,255,.6);line-height:1.8"></p>
+        <button id="closePopup">إغلاق ✕</button>
+    </div>
+</div>
+
+<script>
+// النجوم
+var bg = document.getElementById('bgAnimation');
+for (var i = 0; i < 100; i++) {
+    var star = document.createElement('div');
+    star.className = 'stars';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    bg.appendChild(star);
+}
+
+// عداد الزوار
+document.getElementById('visitorCount').textContent = Math.floor(Math.random() * 300) + 150;
+
+// كلمة السر
+var password = '\u0639\u0645\u0631\u064A';
+
+// زر الدخول
+document.getElementById('loginBtn').addEventListener('click', function() {
+    var input = document.getElementById('passwordInput');
+    var val = input.value.trim();
+
+    if (val === password || val === 'عمري') {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainContent').classList.add('show');
+        document.getElementById('errorMsg').classList.remove('show');
+    } else {
+        document.getElementById('errorMsg').classList.add('show');
+        input.value = '';
+        setTimeout(function() {
+            document.getElementById('errorMsg').classList.remove('show');
+        }, 2000);
+    }
+});
+
+// Enter key
+document.getElementById('passwordInput').addEventListener('keyup', function(e) {
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        document.getElementById('loginBtn').click();
+    }
+});
+
+// تلميح
+document.getElementById('hintBtn').addEventListener('click', function() {
+    alert('التلميح: الكلمة التي تقولها لأغلى الناس عندك 💜');
+});
+
+// البطاقات
+var sections = {
+    about: {icon:'👤', title:'من أنا', text:'أنا شخص بسيط أحب الحياة 💜<br>أحب الضحك والمرح<br>وأقدر كل شخص يقدرني ✨'},
+    photos: {icon:'📸', title:'ألبوم الصور', text:'قريباً سأضيف صور حلوة هنا 🖼️<br>انتظرني... ✨'},
+    secrets: {icon:'🤫', title:'أسراري', text:'سر رقم 1: أنت أهم شخص عندي 💜<br>سر رقم 2: أفكر فيك دايماً 🥰<br>سر رقم 3: ما أقدر أعيش بدونك 🤍'},
+    favorites: {icon:'⭐', title:'المفضلة', text:'لوني المفضل: البنفسجي 💜<br>أكلي المفضل: بيتزا 🍕<br>شخصي المفضل: أنت 🥰'}
+};
+
+var cards = document.querySelectorAll('.card');
+for (var i = 0; i < cards.length; i++) {
+    cards[i].addEventListener('click', function() {
+        var key = this.getAttribute('data-section');
+        var data = sections[key];
+        document.getElementById('popupIcon').textContent = data.icon;
+        document.getElementById('popupTitle').textContent = data.title;
+        document.getElementById('popupText').innerHTML = data.text;
+        document.getElementById('popup').classList.add('show');
+    });
+}
+
+// إغلاق النافذة
+document.getElementById('closePopup').addEventListener('click', function() {
+    document.getElementById('popup').classList.remove('show');
+});
+
+document.getElementById('popup').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.classList.remove('show');
+    }
+});
+
+// نسخ الرابط
+document.getElementById('copyBtn').addEventListener('click', function() {
+    var btn = this;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(window.location.href);
+    }
+    btn.textContent = '✅ تم النسخ!';
+    setTimeout(function() {
+        btn.textContent = '📋 نسخ رابط الصفحة';
+    }, 2000);
+});
+</script>
+
+</body>
+    </html>
