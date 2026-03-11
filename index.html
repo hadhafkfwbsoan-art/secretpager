@@ -1,308 +1,360 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصفحة السرية</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Tajawal',sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;overflow-x:hidden}
-        .bg-animation{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden}
-        .bg-animation .stars{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s infinite}
-        @keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
-        .floating-orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.3;animation:float 8s ease-in-out infinite}
-        .orb1{width:300px;height:300px;background:#667eea;top:10%;right:-5%}
-        .orb2{width:250px;height:250px;background:#f093fb;bottom:10%;left:-5%;animation-delay:2s}
-        .orb3{width:200px;height:200px;background:#4facfe;top:50%;left:40%;animation-delay:4s}
-        @keyframes float{0%,100%{transform:translateY(0)}33%{transform:translateY(-30px)}66%{transform:translateY(20px)}}
-        .login-screen{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:1000;background:#0a0a0a;transition:opacity .8s,visibility .8s}
-        .login-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
-        .login-box{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:50px 40px;width:90%;max-width:420px;text-align:center;animation:slideUp .8s ease}
-        @keyframes slideUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
-        .lock-icon{width:80px;height:80px;background:linear-gradient(135deg,#667eea,#764ba2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;font-size:35px;animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(102,126,234,.4)}50%{box-shadow:0 0 0 20px rgba(102,126,234,0)}}
-        .login-box h2{font-size:28px;font-weight:700;margin-bottom:10px;background:linear-gradient(135deg,#667eea,#f093fb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .login-box p{color:rgba(255,255,255,.5);margin-bottom:30px;font-size:14px}
-        .input-group{margin-bottom:20px}
-        .input-group input{width:100%;padding:16px 20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;font-size:16px;font-family:'Tajawal',sans-serif;outline:none;transition:all .3s;text-align:center}
-        .input-group input::placeholder{color:rgba(255,255,255,.3)}
-        .input-group input:focus{border-color:#667eea;box-shadow:0 0 20px rgba(102,126,234,.2)}
-        .login-btn{width:100%;padding:16px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:14px;color:#fff;font-size:18px;font-weight:700;font-family:'Tajawal',sans-serif;cursor:pointer;transition:all .3s}
-        .login-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(102,126,234,.4)}
-        .error-msg{color:#ff6b6b;margin-top:15px;font-size:14px;display:none}
-        .error-msg.show{display:block;animation:shake .5s}
-        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
-        .main-content{display:none;padding:20px;max-width:800px;margin:0 auto}
-        .main-content.show{display:block;animation:fadeIn 1s ease}
-        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-        .header{text-align:center;padding:40px 0 30px}
-        .profile-pic{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);padding:4px;margin:0 auto 20px;animation:rotate 6s linear infinite}
-        @keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-        .profile-pic .placeholder{width:100%;height:100%;border-radius:50%;background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:50px}
-        .header h1{font-size:32px;font-weight:900;background:linear-gradient(135deg,#667eea,#f093fb,#4facfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
-        .header .subtitle{color:rgba(255,255,255,.5);font-size:16px}
-        .header .status{display:inline-flex;align-items:center;gap:8px;margin-top:15px;padding:8px 20px;background:rgba(102,126,234,.15);border-radius:50px;font-size:14px;color:#667eea}
-        .status-dot{width:8px;height:8px;background:#4ade80;border-radius:50%;animation:blink 1.5s infinite}
-        @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-        .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:30px 0}
-        .card{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:25px;text-align:center;transition:all .3s;cursor:pointer}
-        .card:hover{transform:translateY(-5px);border-color:rgba(102,126,234,.3)}
-        .card-icon{font-size:40px;margin-bottom:12px}
-        .card h3{font-size:16px;font-weight:700;margin-bottom:5px}
-        .card p{font-size:13px;color:rgba(255,255,255,.4)}
-        .secret-message{background:linear-gradient(135deg,rgba(102,126,234,.1),rgba(240,147,251,.1));border:1px solid rgba(102,126,234,.2);border-radius:20px;padding:30px;margin:20px 0;text-align:center}
-        .secret-message .msg-icon{font-size:50px;margin-bottom:15px}
-        .secret-message h2{font-size:24px;margin-bottom:15px;background:linear-gradient(135deg,#667eea,#f093fb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .secret-message .msg-text{font-size:16px;line-height:1.8;color:rgba(255,255,255,.7)}
-        .secret-section{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:30px;margin:20px 0}
-        .secret-section h2{font-size:22px;margin-bottom:20px}
-        .secret-item{display:flex;align-items:center;gap:15px;padding:15px;background:rgba(255,255,255,.03);border-radius:14px;margin-bottom:10px;transition:all .3s}
-        .secret-item:hover{background:rgba(255,255,255,.08)}
-        .secret-item .icon{width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-        .secret-item .info h4{font-size:15px;font-weight:600}
-        .secret-item .info p{font-size:13px;color:rgba(255,255,255,.4);margin-top:3px}
-        .icon-purple{background:rgba(102,126,234,.2)}
-        .icon-pink{background:rgba(240,147,251,.2)}
-        .icon-blue{background:rgba(79,172,254,.2)}
-        .icon-green{background:rgba(74,222,128,.2)}
-        .icon-orange{background:rgba(251,146,60,.2)}
-        .icon-red{background:rgba(251,113,133,.2)}
-        .social-links{display:flex;justify-content:center;gap:12px;margin:30px 0;flex-wrap:wrap}
-        .social-btn{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;transition:all .3s;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05)}
-        .social-btn:hover{transform:translateY(-3px)}
-        .footer{text-align:center;padding:30px 0;color:rgba(255,255,255,.3);font-size:13px}
-        .footer .heart{color:#ff6b6b;display:inline-block;animation:heartbeat 1.5s infinite}
-        @keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-        .copy-btn{padding:12px 24px;background:rgba(102,126,234,.2);border:1px solid rgba(102,126,234,.3);border-radius:12px;color:#667eea;font-size:14px;cursor:pointer;font-family:'Tajawal',sans-serif;font-weight:700;transition:all .3s}
-        .hint-text{color:rgba(255,255,255,.2);font-size:12px;margin-top:15px;cursor:pointer}
-        .visitor-count{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,.05);border-radius:50px;font-size:12px;color:rgba(255,255,255,.4);margin-top:10px}
-        #popup{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:2000;align-items:center;justify-content:center}
-        #popup.show{display:flex}
-        .popup-box{background:rgba(255,255,255,.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:30px;max-width:400px;width:90%;text-align:center}
-        .popup-box button{margin-top:20px;padding:10px 30px;background:linear-gradient(135deg,#667eea,#764ba2);border:none;border-radius:10px;color:#fff;font-size:16px;font-family:'Tajawal',sans-serif;cursor:pointer;font-weight:700}
-        @media(max-width:480px){.login-box{padding:40px 25px}.header h1{font-size:26px}}
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>عطور هايبرلوكس 2099 - متجاوزة الواقع</title>
+  <!-- خطوط سايبربانك مستقبلية -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;700&family=El+Messiri:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    /* إعادة تعيين متطرف */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rajdhani', 'El Messiri', sans-serif;
+      background: #010314;
+      color: #e0f2fe;
+      min-height: 100vh;
+      padding: 50px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* تأثيرات الخلفية النيونية الديناميكية */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 70% 30%, rgba(255, 0, 255, 0.15) 0%, transparent 30%),
+        radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.15) 0%, transparent 30%),
+        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 40%);
+      animation: rotateBackground 60s linear infinite;
+      z-index: -2;
+    }
+
+    @keyframes rotateBackground {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(5deg) scale(1.05); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    /* طبقة ضبابية ذكية */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="1" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.04"/></svg>');
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    h1 {
+      font-family: 'Orbitron', 'El Messiri', sans-serif;
+      font-weight: 900;
+      text-align: center;
+      font-size: clamp(2.8rem, 10vw, 5.2rem);
+      margin-bottom: 60px;
+      color: #fff0b5;
+      text-transform: uppercase;
+      letter-spacing: 8px;
+      text-shadow: 
+        0 0 10px #ffd700,
+        0 0 20px #ffd700,
+        0 0 40px #ff00c1,
+        0 0 80px #ff00c1;
+      animation: flicker 3s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 40px #ff00c1, 0 0 80px #ff00c1; }
+      50% { text-shadow: 0 0 15px #ffd700, 0 0 30px #ff00c1, 0 0 60px #00ffff, 0 0 100px #00ffff; }
+      100% { text-shadow: 0 0 10px #ffd700, 0 0 20px #00ffff, 0 0 40px #ff00c1, 0 0 80px #ffd700; }
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 50px 30px;
+    }
+
+    .perfume-card {
+      position: relative;
+      background: rgba(5, 5, 20, 0.65);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 48px 48px 32px 32px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 255, 255, 0.25);
+      transition: all 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .perfume-card:hover {
+      transform: translateY(-25px) scale(1.04) rotateX(3deg) rotateY(-2deg);
+      box-shadow: 
+        0 0 50px rgba(255, 0, 255, 0.7),
+        0 0 100px rgba(0, 255, 255, 0.5),
+        inset 0 0 40px rgba(255, 215, 0, 0.5);
+      border-color: #ff00c1;
+    }
+
+    .image-wrapper {
+      position: relative;
+      height: 450px;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 30%, #2a1e3a, #0a0a1a);
+    }
+
+    .perfume-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      filter: saturate(1.8) contrast(1.3) brightness(1.15) hue-rotate(-5deg);
+      transition: all 0.9s ease-out;
+      mix-blend-mode: luminosity;
+    }
+
+    .perfume-card:hover .perfume-img {
+      transform: scale(1.2) rotate(3deg);
+      filter: saturate(2.5) contrast(1.5) brightness(1.4) hue-rotate(10deg) drop-shadow(0 0 35px cyan);
+      mix-blend-mode: screen;
+    }
+
+    /* تراكبات نيون متحركة */
+    .glow-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 60% 20%, rgba(255, 0, 255, 0.45) 0%, transparent 50%),
+                  radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.45) 0%, transparent 55%);
+      pointer-events: none;
+      opacity: 0.5;
+      transition: opacity 0.5s, background 0.5s;
+      mix-blend-mode: overlay;
+    }
+
+    .perfume-card:hover .glow-overlay {
+      opacity: 1;
+      background: radial-gradient(circle at 40% 30%, #ffd700 0%, transparent 45%),
+                  radial-gradient(circle at 70% 80%, #ff00c1 0%, transparent 50%),
+                  radial-gradient(circle at 20% 50%, #00ffff 0%, transparent 60%);
+    }
+
+    /* خطوط مسح ضوئي */
+    .image-wrapper::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 300%;
+      height: 300%;
+      background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+      animation: scan 8s linear infinite;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @keyframes scan {
+      0% { transform: translateX(-50%) translateY(-50%) rotate(30deg); }
+      100% { transform: translateX(50%) translateY(50%) rotate(30deg); }
+    }
+
+    .info {
+      padding: 30px 20px 35px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border-top: 2px solid rgba(255, 215, 0, 0.4);
+      position: relative;
+    }
+
+    .name {
+      font-family: 'Orbitron', 'El Messiri', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #ffea9e;
+      text-shadow: 0 0 8px cyan, 0 0 18px magenta;
+      letter-spacing: 2px;
+    }
+
+    .desc {
+      font-size: 1.25rem;
+      color: #b0f0ff;
+      margin-bottom: 22px;
+      line-height: 1.7;
+      font-weight: 300;
+      text-shadow: 0 0 5px rgba(0,255,255,0.5);
+    }
+
+    .price {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #ffa7ff;
+      margin-bottom: 28px;
+      text-shadow: 0 0 10px magenta, 0 0 20px cyan;
+      letter-spacing: 2px;
+    }
+
+    .buy-btn {
+      background: linear-gradient(135deg, #ffd700, #ff5e00, #ff00c1);
+      background-size: 200% 200%;
+      color: #0a0a1a;
+      border: none;
+      padding: 16px 45px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.4s;
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      border: 1px solid rgba(255,255,255,0.5);
+      animation: gradientShift 4s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .buy-btn:hover {
+      transform: scale(1.15) translateY(-5px);
+      box-shadow: 0 0 60px cyan, 0 0 120px magenta;
+      border-color: white;
+    }
+
+    /* صور عالية الدقة احترافية - Unsplash محدثة و HD */
+    /* استخدام unsplash + id عالية الدقة + تأثيرات */
+  </style>
 </head>
 <body>
 
-<div class="bg-animation" id="bgAnimation"></div>
-<div class="floating-orb orb1"></div>
-<div class="floating-orb orb2"></div>
-<div class="floating-orb orb3"></div>
+  <h1>⍟ عطور 2099 اللاكمية ⍟</h1>
 
-<div class="login-screen" id="loginScreen">
-    <div class="login-box">
-        <div class="lock-icon">🔒</div>
-        <h2>صفحة سرية</h2>
-        <p>أدخل كلمة السر للوصول إلى المحتوى الخاص</p>
-        <div class="input-group">
-            <input type="text" id="passwordInput" placeholder="أدخل كلمة السر..." autocomplete="off">
-        </div>
-        <button class="login-btn" id="loginBtn">دخول 🚀</button>
-        <div class="error-msg" id="errorMsg">❌ كلمة السر غير صحيحة!</div>
-        <div class="visitor-count">👁️ <span id="visitorCount">0</span> زائر</div>
-        <p class="hint-text" id="hintBtn">💡 تلميح؟</p>
-    </div>
-</div>
-
-<div class="main-content" id="mainContent">
-    <div class="header">
-        <div class="profile-pic">
-            <div class="placeholder">👤</div>
-        </div>
-        <h1>مرحباً يا عمري 💜</h1>
-        <p class="subtitle">أهلاً بك في صفحتي السرية ✨</p>
-        <div class="status">
-            <span class="status-dot"></span>
-            متصل الآن
-        </div>
+  <div class="container">
+    <!-- بطاقة 1: صورة عطر Aventus بجودة 4K -->
+    <div class="perfume-card">
+      <div class="image-wrapper">
+        <img src="https://images.unsplash.com/photo-1617897903246-719242758c4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=95" 
+             alt="Creed Aventus Hypervision" 
+             class="perfume-img"
+             loading="lazy"/>
+        <div class="glow-overlay"></div>
+      </div>
+      <div class="info">
+        <div class="name">CREED AVENTUS 3000</div>
+        <div class="desc">أناناس مشبع بالنيون • خشب متبلور • مسك كمومي</div>
+        <div class="price">2,250 درهم</div>
+        <button class="buy-btn">اطلب التفعيل</button>
+      </div>
     </div>
 
-    <div class="cards-grid">
-        <div class="card" data-section="about">
-            <div class="card-icon">👤</div>
-            <h3>من أنا</h3>
-            <p>تعرف عليّ أكثر</p>
-        </div>
-        <div class="card" data-section="photos">
-            <div class="card-icon">📸</div>
-            <h3>صوري</h3>
-            <p>ألبوم خاص</p>
-        </div>
-        <div class="card" data-section="secrets">
-            <div class="card-icon">🤫</div>
-            <h3>أسراري</h3>
-            <p>لا تخبر أحداً</p>
-        </div>
-        <div class="card" data-section="favorites">
-            <div class="card-icon">⭐</div>
-            <h3>المفضلة</h3>
-            <p>أشيائي المفضلة</p>
-        </div>
+    <!-- بطاقة 2: Oud Wood بخلفية داكنة فاخرة -->
+    <div class="perfume-card">
+      <div class="image-wrapper">
+        <img src="https://images.unsplash.com/photo-1592945403407-9c235930f50d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=95" 
+             alt="Tom Ford Oud Wood Chroma" 
+             class="perfume-img"
+             loading="lazy"/>
+        <div class="glow-overlay"></div>
+      </div>
+      <div class="info">
+        <div class="name">TOM FORD OUD WOOD</div>
+        <div class="desc">عود أسود • صندل مشع • عنبر سايبر</div>
+        <div class="price">1,890 درهم</div>
+        <button class="buy-btn">اطلب التفعيل</button>
+      </div>
     </div>
 
-    <div class="secret-message">
-        <div class="msg-icon">💌</div>
-        <h2>رسالة خاصة لك</h2>
-        <p class="msg-text">
-            إذا وصلت إلى هنا، فأنت شخص مميز جداً بالنسبة لي 💜<br><br>
-            هذه الصفحة صنعتها خصيصاً لك وحدك<br>
-            لأنك تستحق كل شيء جميل في هذه الحياة ✨<br><br>
-            أحبك يا عمري 🤍
-        </p>
+    <!-- بطاقة 3: عطر آخر بصور احترافية - Baccarat Rouge 540 -->
+    <div class="perfume-card">
+      <div class="image-wrapper">
+        <img src="https://images.unsplash.com/photo-1615634260163-947423628778?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=95" 
+             alt="Baccarat Rouge 540" 
+             class="perfume-img"
+             loading="lazy"/>
+        <div class="glow-overlay"></div>
+      </div>
+      <div class="info">
+        <div class="name">MFK BACCRAT RGE 540</div>
+        <div class="desc">زعفران ليزري • ياسمين مضخم • أخشاب فائقة</div>
+        <div class="price">2,990 درهم</div>
+        <button class="buy-btn">اطلب التفعيل</button>
+      </div>
     </div>
 
-    <div class="secret-section">
-        <h2>🔐 معلومات سرية</h2>
-        <div class="secret-item">
-            <div class="icon icon-purple">📛</div>
-            <div class="info"><h4>الاسم</h4><p>ضع اسمك هنا</p></div>
-        </div>
-        <div class="secret-item">
-            <div class="icon icon-pink">🎂</div>
-            <div class="info"><h4>تاريخ الميلاد</h4><p>01 / 01 / 2000</p></div>
-        </div>
-        <div class="secret-item">
-            <div class="icon icon-blue">📍</div>
-            <div class="info"><h4>الموقع</h4><p>المدينة، البلد</p></div>
-        </div>
-        <div class="secret-item">
-            <div class="icon icon-green">💚</div>
-            <div class="info"><h4>الحالة</h4><p>مبسوط وأحب الحياة ✨</p></div>
-        </div>
-        <div class="secret-item">
-            <div class="icon icon-orange">🎵</div>
-            <div class="info"><h4>أغنيتي المفضلة</h4><p>ضع أغنيتك المفضلة هنا</p></div>
-        </div>
-        <div class="secret-item">
-            <div class="icon icon-red">❤️</div>
-            <div class="info"><h4>أغلى شخص</h4><p>أنت يا من تقرأ هذا 💜</p></div>
-        </div>
+    <!-- بطاقة 4: Dior Sauvage Elixir -->
+    <div class="perfume-card">
+      <div class="image-wrapper">
+        <img src="https://images.unsplash.com/photo-1631726997491-512e3671dba7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=95" 
+             alt="Dior Sauvage Elixir Neon" 
+             class="perfume-img"
+             loading="lazy"/>
+        <div class="glow-overlay"></div>
+      </div>
+      <div class="info">
+        <div class="name">DIOR SAUVAGE ELIXIR</div>
+        <div class="desc">هبّات برق • فلفل نيون • عنبر معدني</div>
+        <div class="price">1,650 درهم</div>
+        <button class="buy-btn">اطلب التفعيل</button>
+      </div>
     </div>
 
-    <div style="text-align:center;margin:30px 0">
-        <h3 style="margin-bottom:15px;color:rgba(255,255,255,.6)">تواصل معي 💬</h3>
-        <div class="social-links">
-            <a href="#" class="social-btn">📷</a>
-            <a href="#" class="social-btn">🎵</a>
-            <a href="#" class="social-btn">👻</a>
-            <a href="#" class="social-btn">🐦</a>
-            <a href="#" class="social-btn">🎮</a>
-            <a href="#" class="social-btn">✈️</a>
-        </div>
+    <!-- بطاقة 5: Le Labo Santal 33 -->
+    <div class="perfume-card">
+      <div class="image-wrapper">
+        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=95" 
+             alt="Le Labo Santal 33" 
+             class="perfume-img"
+             loading="lazy"/>
+        <div class="glow-overlay"></div>
+      </div>
+      <div class="info">
+        <div class="name">LE LABO SANTAL 33</div>
+        <div class="desc">صندل نووي • جلود كهربائية • خيارات الكتروني</div>
+        <div class="price">2,150 درهم</div>
+        <button class="buy-btn">اطلب التفعيل</button>
+      </div>
     </div>
 
-    <div style="text-align:center;margin:20px 0">
-        <button class="copy-btn" id="copyBtn">📋 نسخ رابط الصفحة</button>
+    <!-- بطاقة 6: Initio Parfums Oud for Greatness -->
+    <div class="perfume-card">
+      <div class="image-wrapper">
+        <img src="https://images.unsplash.com/photo-1642009274855-9c6e008181d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=95" 
+             alt="Initio Oud for Greatness" 
+             class="perfume-img"
+             loading="lazy"/>
+        <div class="glow-overlay"></div>
+      </div>
+      <div class="info">
+        <div class="name">INITIO OUD GREATNESS</div>
+        <div class="desc">عود نووي • زعفران كمي • مسك أسود</div>
+        <div class="price">2,480 درهم</div>
+        <button class="buy-btn">اطلب التفعيل</button>
+      </div>
     </div>
+  </div>
 
-    <div class="footer">
-        <p>صُنع بـ <span class="heart">❤️</span> بكل حب</p>
-        <p style="margin-top:5px">© 2024 - الصفحة السرية 🔒</p>
-    </div>
-</div>
-
-<div id="popup">
-    <div class="popup-box">
-        <div id="popupIcon" style="font-size:50px;margin-bottom:15px"></div>
-        <h3 id="popupTitle" style="font-size:20px;margin-bottom:10px"></h3>
-        <p id="popupText" style="color:rgba(255,255,255,.6);line-height:1.8"></p>
-        <button id="closePopup">إغلاق ✕</button>
-    </div>
-</div>
-
-<script>
-// النجوم
-var bg = document.getElementById('bgAnimation');
-for (var i = 0; i < 100; i++) {
-    var star = document.createElement('div');
-    star.className = 'stars';
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.animationDelay = Math.random() * 3 + 's';
-    bg.appendChild(star);
-}
-
-// عداد الزوار
-document.getElementById('visitorCount').textContent = Math.floor(Math.random() * 300) + 150;
-
-// كلمة السر
-var password = '\u0639\u0645\u0631\u064A';
-
-// زر الدخول
-document.getElementById('loginBtn').addEventListener('click', function() {
-    var input = document.getElementById('passwordInput');
-    var val = input.value.trim();
-
-    if (val === password || val === 'عمري') {
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.add('show');
-        document.getElementById('errorMsg').classList.remove('show');
-    } else {
-        document.getElementById('errorMsg').classList.add('show');
-        input.value = '';
-        setTimeout(function() {
-            document.getElementById('errorMsg').classList.remove('show');
-        }, 2000);
-    }
-});
-
-// Enter key
-document.getElementById('passwordInput').addEventListener('keyup', function(e) {
-    if (e.key === 'Enter' || e.keyCode === 13) {
-        document.getElementById('loginBtn').click();
-    }
-});
-
-// تلميح
-document.getElementById('hintBtn').addEventListener('click', function() {
-    alert('التلميح: الكلمة التي تقولها لأغلى الناس عندك 💜');
-});
-
-// البطاقات
-var sections = {
-    about: {icon:'👤', title:'من أنا', text:'أنا شخص بسيط أحب الحياة 💜<br>أحب الضحك والمرح<br>وأقدر كل شخص يقدرني ✨'},
-    photos: {icon:'📸', title:'ألبوم الصور', text:'قريباً سأضيف صور حلوة هنا 🖼️<br>انتظرني... ✨'},
-    secrets: {icon:'🤫', title:'أسراري', text:'سر رقم 1: أنت أهم شخص عندي 💜<br>سر رقم 2: أفكر فيك دايماً 🥰<br>سر رقم 3: ما أقدر أعيش بدونك 🤍'},
-    favorites: {icon:'⭐', title:'المفضلة', text:'لوني المفضل: البنفسجي 💜<br>أكلي المفضل: بيتزا 🍕<br>شخصي المفضل: أنت 🥰'}
-};
-
-var cards = document.querySelectorAll('.card');
-for (var i = 0; i < cards.length; i++) {
-    cards[i].addEventListener('click', function() {
-        var key = this.getAttribute('data-section');
-        var data = sections[key];
-        document.getElementById('popupIcon').textContent = data.icon;
-        document.getElementById('popupTitle').textContent = data.title;
-        document.getElementById('popupText').innerHTML = data.text;
-        document.getElementById('popup').classList.add('show');
-    });
-}
-
-// إغلاق النافذة
-document.getElementById('closePopup').addEventListener('click', function() {
-    document.getElementById('popup').classList.remove('show');
-});
-
-document.getElementById('popup').addEventListener('click', function(e) {
-    if (e.target === this) {
-        this.classList.remove('show');
-    }
-});
-
-// نسخ الرابط
-document.getElementById('copyBtn').addEventListener('click', function() {
-    var btn = this;
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(window.location.href);
-    }
-    btn.textContent = '✅ تم النسخ!';
-    setTimeout(function() {
-        btn.textContent = '📋 نسخ رابط الصفحة';
-    }, 2000);
-});
-</script>
-
+  <!-- تحسينات: إضافة وميض خلفي متحرك -->
+  <div style="position: fixed; bottom: 20px; right: 20px; font-family: 'Orbitron'; color: #ffffff30; font-size: 0.8rem; backdrop-filter: blur(5px); padding: 5px 15px; border-radius: 40px; border: 1px solid cyan; z-index: 999;">
+    الوضع المظلم 2099 • NEON ACTIVATED
+  </div>
 </body>
-    </html>
+            </html>
