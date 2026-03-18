@@ -1,277 +1,54 @@
-```html
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>عطور أنيقة - إصدار خفيف</title>
-  <!-- خطوط عصرية وأنيقة مع دعم العربية -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet"/>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<title>عيد مبارك</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Tahoma', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
 
-    body {
-      font-family: 'Cairo', 'Tajawal', sans-serif;
-      background: #faf9f6;
-      color: #2c2c2c;
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
+.container {
+  animation: fadeIn 2s ease-in-out;
+}
 
-    h1 {
-      font-family: 'Tajawal', sans-serif;
-      font-weight: 700;
-      text-align: center;
-      font-size: 2.8rem;
-      margin-bottom: 50px;
-      color: #1e1e1e;
-      letter-spacing: -0.5px;
-      position: relative;
-      display: inline-block;
-      width: 100%;
-    }
+h1 {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
 
-    h1:after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, #c4a484, #8b5a2b);
-      border-radius: 3px;
-    }
+.name {
+  font-size: 60px;
+  color: gold;
+  margin: 20px 0;
+}
 
-    .container {
-      max-width: 1300px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 35px;
-      padding: 20px 0;
-    }
+p {
+  font-size: 20px;
+  opacity: 0.9;
+}
 
-    .perfume-card {
-      background: #ffffff;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(0, 0, 0, 0.03);
-    }
-
-    .perfume-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    .image-wrapper {
-      position: relative;
-      height: 320px;
-      overflow: hidden;
-      background: #f5f0eb;
-    }
-
-    .perfume-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-
-    .perfume-card:hover .perfume-img {
-      transform: scale(1.05);
-    }
-
-    .info {
-      padding: 25px 20px 30px;
-      text-align: center;
-      background: #ffffff;
-    }
-
-    .name {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #1e1e1e;
-      line-height: 1.3;
-    }
-
-    .desc {
-      font-size: 1rem;
-      color: #6b6b6b;
-      margin-bottom: 16px;
-      line-height: 1.5;
-      font-weight: 300;
-    }
-
-    .price {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #8b5a2b;
-      margin-bottom: 20px;
-      letter-spacing: -0.5px;
-    }
-
-    .buy-btn {
-      background: #1e1e1e;
-      color: #ffffff;
-      border: none;
-      padding: 14px 35px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      border-radius: 40px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Cairo', sans-serif;
-      width: 100%;
-      max-width: 220px;
-      margin: 0 auto;
-      display: inline-block;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .buy-btn:hover {
-      background: #c4a484;
-      transform: scale(1.02);
-    }
-
-    /* تحسين للجوال */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-      
-      .container {
-        gap: 20px;
-      }
-      
-      .image-wrapper {
-        height: 280px;
-      }
-      
-      .name {
-        font-size: 1.4rem;
-      }
-      
-      .price {
-        font-size: 1.6rem;
-      }
-    }
-  </style>
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+</style>
 </head>
+
 <body>
-
-  <h1>عطور فاخرة</h1>
-
-  <div class="container">
-    <!-- بطاقة 1 -->
-    <div class="perfume-card">
-      <div class="image-wrapper">
-        <img src="https://images.unsplash.com/photo-1617897903246-719242758c4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85" 
-             alt="Creed Aventus" 
-             class="perfume-img"
-             loading="lazy"/>
-      </div>
-      <div class="info">
-        <div class="name">Creed Aventus</div>
-        <div class="desc">أناناس - خشب - مسك</div>
-        <div class="price">1,450 درهم</div>
-        <button class="buy-btn">اشترِ</button>
-      </div>
-    </div>
-
-    <!-- بطاقة 2 -->
-    <div class="perfume-card">
-      <div class="image-wrapper">
-        <img src="https://images.unsplash.com/photo-1592945403407-9c235930f50d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85" 
-             alt="Tom Ford Oud Wood" 
-             class="perfume-img"
-             loading="lazy"/>
-      </div>
-      <div class="info">
-        <div class="name">Tom Ford Oud Wood</div>
-        <div class="desc">عود - صندل - عنبر</div>
-        <div class="price">980 درهم</div>
-        <button class="buy-btn">اشترِ</button>
-      </div>
-    </div>
-
-    <!-- بطاقة 3 -->
-    <div class="perfume-card">
-      <div class="image-wrapper">
-        <img src="https://images.unsplash.com/photo-1615634260163-947423628778?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85" 
-             alt="Baccarat Rouge 540" 
-             class="perfume-img"
-             loading="lazy"/>
-      </div>
-      <div class="info">
-        <div class="name">MFK Baccarat Rouge</div>
-        <div class="desc">زعفران - ياسمين - أخشاب</div>
-        <div class="price">2,200 درهم</div>
-        <button class="buy-btn">اشترِ</button>
-      </div>
-    </div>
-
-    <!-- بطاقة 4 -->
-    <div class="perfume-card">
-      <div class="image-wrapper">
-        <img src="https://images.unsplash.com/photo-1631726997491-512e3671dba7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85" 
-             alt="Dior Sauvage" 
-             class="perfume-img"
-             loading="lazy"/>
-      </div>
-      <div class="info">
-        <div class="name">Dior Sauvage</div>
-        <div class="desc">فلفل - عنبر - خشب</div>
-        <div class="price">1,250 درهم</div>
-        <button class="buy-btn">اشترِ</button>
-      </div>
-    </div>
-
-    <!-- بطاقة 5 -->
-    <div class="perfume-card">
-      <div class="image-wrapper">
-        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85" 
-             alt="Le Labo Santal 33" 
-             class="perfume-img"
-             loading="lazy"/>
-      </div>
-      <div class="info">
-        <div class="name">Le Labo Santal 33</div>
-        <div class="desc">صندل - جلود - خيارات</div>
-        <div class="price">1,850 درهم</div>
-        <button class="buy-btn">اشترِ</button>
-      </div>
-    </div>
-
-    <!-- بطاقة 6 -->
-    <div class="perfume-card">
-      <div class="image-wrapper">
-        <img src="https://images.unsplash.com/photo-1642009274855-9c6e008181d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=85" 
-             alt="Initio Oud for Greatness" 
-             class="perfume-img"
-             loading="lazy"/>
-      </div>
-      <div class="info">
-        <div class="name">Initio Oud Greatness</div>
-        <div class="desc">عود - زعفران - مسك</div>
-        <div class="price">2,150 درهم</div>
-        <button class="buy-btn">اشترِ</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- عنصر بسيط في الأسفل -->
-  <div style="text-align: center; margin-top: 50px; color: #8b8b8b; font-size: 0.9rem;">
-    <span>توصيل مجاني للطلبات فوق 500 درهم</span>
-  </div>
+<div class="container">
+  <h1>🌙 عيد مبارك 🌙</h1>
+  <div class="name">محمد</div>
+  <p>كل عام وأنت بخير 🤍<br>عساك من العايدين والفايزين ✨</p>
+</div>
 </body>
 </html>
-```
